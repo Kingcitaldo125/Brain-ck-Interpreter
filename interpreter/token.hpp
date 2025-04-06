@@ -18,4 +18,4 @@ enum class TOKENS
 
 using tok_arr_t = std::vector<BrainFck::TOKENS>;
 using tok_iter_t = tok_arr_t::iterator;
-}
+} // namespace BrainFck

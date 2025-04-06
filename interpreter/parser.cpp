@@ -5,8 +5,6 @@
 #include "parser.hpp"
 #include "utility.hpp"
 
-#define DEBUG
-
 using namespace BrainFck;
 
 Parser::Parser()
@@ -16,48 +14,60 @@ Parser::Parser()
     lexemes = std::unordered_set<char>{'<', '>', '[', ']', '.', '+', '-', ','};
 }
 
-BrainFck::tok_arr_t Parser::tokenize(const std::string& mstr)
+BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
 {
     BrainFck::tok_arr_t tokens;
 
-    for(const auto& chr : mstr)
+    for (const auto &chr : mstr)
     {
         // If we found a token that's not in the language, discard
-        if (lexemes.find(chr) == lexemes.end()) continue;
+        if (lexemes.find(chr) == lexemes.end())
+            continue;
 
         // Otherwise, tokenize the char
-        if (chr == '+') tokens.push_back(BrainFck::TOKENS::INC);
-        else if (chr == '-') tokens.push_back(BrainFck::TOKENS::DEC);
-        else if (chr == '[') tokens.push_back(BrainFck::TOKENS::OBRACK);
-        else if (chr == ']') tokens.push_back(BrainFck::TOKENS::CBRACK);
-        else if (chr == '.') tokens.push_back(BrainFck::TOKENS::OUTP);
-        else if (chr == '<') tokens.push_back(BrainFck::TOKENS::SHL);
-        else if (chr == '>') tokens.push_back(BrainFck::TOKENS::SHR);
-        else if (chr == ',') tokens.push_back(BrainFck::TOKENS::INP);
+        if (chr == '+')
+            tokens.push_back(BrainFck::TOKENS::INC);
+        else if (chr == '-')
+            tokens.push_back(BrainFck::TOKENS::DEC);
+        else if (chr == '[')
+            tokens.push_back(BrainFck::TOKENS::OBRACK);
+        else if (chr == ']')
+            tokens.push_back(BrainFck::TOKENS::CBRACK);
+        else if (chr == '.')
+            tokens.push_back(BrainFck::TOKENS::OUTP);
+        else if (chr == '<')
+            tokens.push_back(BrainFck::TOKENS::SHL);
+        else if (chr == '>')
+            tokens.push_back(BrainFck::TOKENS::SHR);
+        else if (chr == ',')
+            tokens.push_back(BrainFck::TOKENS::INP);
     }
 
     return tokens;
 }
 
-int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS instruction)
+int Parser::handle_instruction(BrainFck::tok_arr_t &contents, BrainFck::TOKENS instruction)
 {
     switch (instruction)
     {
     case BrainFck::TOKENS::SHL:
     {
-        if (xpointer - 1 < 0) break;
+        if (xpointer - 1 < 0)
+            break;
         --xpointer;
         break;
     }
     case BrainFck::TOKENS::SHR:
     {
-        if (xpointer + 1 >= ARRAY_LENGTH) break;
+        if (xpointer + 1 >= ARRAY_LENGTH)
+            break;
         ++xpointer;
         break;
     }
     case BrainFck::TOKENS::OBRACK:
     {
-        if (token_pointer + 1 >= contents.end()) break; // Open bracket is final element in the input (discard)
+        if (token_pointer + 1 >= contents.end())
+            break; // Open bracket is final element in the input (discard)
 
         brack_stack.push_back(std::make_pair(xpointer, token_pointer + 1));
 #ifdef DEBUG
@@ -73,14 +83,15 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
     {
         if (!brack_stack.empty())
         {
-            auto& top = brack_stack.back();
-            const auto &[tpointer,ttoken] = top;
+            auto &top = brack_stack.back();
+            const auto &[tpointer, ttoken] = top;
 
             if (!elements.at(tpointer) || !elements.at(xpointer))
             {
                 // we've hit the end condition for the loop
 #ifdef DEBUG
-                std::cout << "hit end condition for loop starting at xpointer: " << xpointer << "\n";
+                std::cout << "hit end condition for loop starting at xpointer: " << xpointer
+                          << "\n";
 #endif // DEBUG
                 brack_stack.pop_back();
                 break;
@@ -88,7 +99,7 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
 
             // go back to the start of the loop
 #ifdef DEBUG
-                std::cout << "looping back to: " << stringify_token(*ttoken) << "\n";
+            std::cout << "looping back to: " << stringify_token(*ttoken) << "\n";
 #endif // DEBUG
 
             token_pointer = ttoken - 1;
@@ -99,18 +110,20 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
     {
         ++elements.at(xpointer);
 
-        if (elements.at(xpointer) > BYTE_END) elements.at(xpointer) = 0;
+        if (elements.at(xpointer) > BYTE_END)
+            elements.at(xpointer) = 0;
         break;
     }
     case BrainFck::TOKENS::DEC:
     {
         --elements.at(xpointer);
-        if (elements.at(xpointer) < 0) elements.at(xpointer) = BYTE_END;
+        if (elements.at(xpointer) < 0)
+            elements.at(xpointer) = BYTE_END;
         break;
     }
     case BrainFck::TOKENS::OUTP:
     {
-        const auto& el = static_cast<char>(elements.at(xpointer));
+        const auto &el = static_cast<char>(elements.at(xpointer));
         xoutput << el;
         break;
     }
@@ -128,9 +141,10 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
     return 0;
 }
 
-int Parser::parse(const std::string& mstr)
+int Parser::parse(const std::string &mstr)
 {
-    if (mstr.empty()) return 0;
+    if (mstr.empty())
+        return 0;
 
 #ifdef DEBUG
     std::cout << "Input: " << mstr << "\n";
@@ -140,7 +154,7 @@ int Parser::parse(const std::string& mstr)
     token_pointer = tokens.begin();
     int res = 0;
 
-    for(; token_pointer < tokens.end(); ++token_pointer)
+    for (; token_pointer < tokens.end(); ++token_pointer)
     {
 #ifdef DEBUG
         std::cout << "next token: ";
