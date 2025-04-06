@@ -9,13 +9,13 @@ namespace BrainFck
 {
 class Interpreter
 {
-public:
+  public:
     Interpreter();
 
     int interpret();
 
-private:
-  std::unique_ptr<Parser> parser;
-  std::string int_prefix;
+  private:
+    std::unique_ptr<Parser> parser;
+    std::string int_prefix;
 };
-}
+} // namespace BrainFck

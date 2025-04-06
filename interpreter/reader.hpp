@@ -9,12 +9,12 @@ namespace BrainFck
 {
 class Reader
 {
-public:
+  public:
     Reader();
 
-    int read(const std::string& filepath);
+    int read(const std::string &filepath);
 
-private:
+  private:
     std::unique_ptr<Parser> parser;
 };
-}
+} // namespace BrainFck

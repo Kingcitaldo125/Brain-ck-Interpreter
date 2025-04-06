@@ -59,7 +59,8 @@ BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
             tokens.push_back(BrainFck::TOKENS::INP);
         else
         {
-            if (tokenize_verbose) std::cout << "Not a valid token: '" << chr << "' -- skipping...";
+            if (tokenize_verbose)
+                std::cout << "Not a valid token: '" << chr << "' -- skipping...";
         }
     }
 

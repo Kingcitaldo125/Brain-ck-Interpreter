@@ -4,8 +4,8 @@
 
 #include "reader.hpp"
 
-using BrainFck::Reader;
 using BrainFck::Parser;
+using BrainFck::Reader;
 
 Reader::Reader()
 {
@@ -18,7 +18,7 @@ int Reader::read(const std::string &filepath)
     std::stringstream stream;
     std::string holder;
 
-    while(iff >> holder)
+    while (iff >> holder)
     {
         stream << holder;
         holder = "";

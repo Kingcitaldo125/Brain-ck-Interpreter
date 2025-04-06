@@ -6,7 +6,7 @@
 using BrainFck::Interpreter;
 using BrainFck::Reader;
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     if (argc == 1)
     {

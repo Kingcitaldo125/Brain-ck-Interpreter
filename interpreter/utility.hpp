@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include "token.hpp"
+#include <string>
 
 namespace BrainFck
 {

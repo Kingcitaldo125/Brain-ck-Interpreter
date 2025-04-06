@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "parser.hpp"
 #include "interpreter.hpp"
+#include "parser.hpp"
 
-using BrainFck::Parser;
 using BrainFck::Interpreter;
+using BrainFck::Parser;
 
 Interpreter::Interpreter()
 {
@@ -28,12 +28,13 @@ int Interpreter::interpret()
 #ifdef DEBUG
         std::cout << "holder " << holder << "\n";
 #endif // DEBUG
-        //break;
+       // break;
 
-        if (holder.empty()) break;
+        if (holder.empty())
+            break;
 
         bool is_ascii = true;
-        for(const auto& itm : holder)
+        for (const auto &itm : holder)
         {
             if (!isascii(itm))
             {
@@ -42,11 +43,13 @@ int Interpreter::interpret()
             }
         }
 
-        if (!is_ascii) continue;
+        if (!is_ascii)
+            continue;
 
         res |= parser->parse(holder);
 
-        if (res != 0) break;
+        if (res != 0)
+            break;
         if (holder == ".")
         {
             std::cout << parser->output() << std::endl;
