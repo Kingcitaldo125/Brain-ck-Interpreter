@@ -11,8 +11,8 @@ int main()
     Parser parser;
     int res = 0;
 
-    //res |= parser.parse(HELLO_WORLD);
-    res |= parser.parse(HELLO_BANG);
+    res |= parser.parse(HELLO_WORLD);
+    //res |= parser.parse(HELLO_BANG);
     //res |= parser.parse("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.");
     /*
     res |= parser.parse(

@@ -5,7 +5,7 @@
 #include "parser.hpp"
 #include "utility.hpp"
 
-//#define DEBUG
+#define DEBUG
 
 using namespace BrainFck;
 
@@ -76,14 +76,13 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
             auto& top = brack_stack.back();
             const auto &[tpointer,ttoken] = top;
 
-            if (!elements.at(tpointer))
+            if (!elements.at(tpointer) || !elements.at(xpointer))
             {
                 // we've hit the end condition for the loop
 #ifdef DEBUG
                 std::cout << "hit end condition for loop starting at xpointer: " << xpointer << "\n";
 #endif // DEBUG
                 brack_stack.pop_back();
-                //++token_pointer;
                 break;
             }
 
@@ -92,7 +91,6 @@ int Parser::handle_instruction(BrainFck::tok_arr_t& contents, BrainFck::TOKENS i
                 std::cout << "looping back to: " << stringify_token(*ttoken) << "\n";
 #endif // DEBUG
 
-            xpointer = tpointer;
             token_pointer = ttoken - 1;
         } // else, we may have a parse error here.
         break;
