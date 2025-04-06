@@ -12,6 +12,22 @@ Parser::Parser()
     xpointer = 0;
     elements.fill(0);
     lexemes = std::unordered_set<char>{'<', '>', '[', ']', '.', '+', '-', ','};
+    unset_tokenize_verbose();
+}
+
+void Parser::set_tokenize_verbose()
+{
+    tokenize_verbose = true;
+}
+
+void Parser::unset_tokenize_verbose()
+{
+    tokenize_verbose = false;
+}
+
+bool Parser::valid_token(const char chr)
+{
+    return lexemes.find(chr) != lexemes.end();
 }
 
 BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
@@ -21,7 +37,7 @@ BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
     for (const auto &chr : mstr)
     {
         // If we found a token that's not in the language, discard
-        if (lexemes.find(chr) == lexemes.end())
+        if (!valid_token(chr))
             continue;
 
         // Otherwise, tokenize the char
@@ -41,6 +57,10 @@ BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
             tokens.push_back(BrainFck::TOKENS::SHR);
         else if (chr == ',')
             tokens.push_back(BrainFck::TOKENS::INP);
+        else
+        {
+            if (tokenize_verbose) std::cout << "Not a valid token: '" << chr << "' -- skipping...";
+        }
     }
 
     return tokens;
@@ -171,4 +191,15 @@ int Parser::parse(const std::string &mstr)
 std::string Parser::output()
 {
     return xoutput.str();
+}
+
+void Parser::reset_output()
+{
+    xoutput.str("");
+    xoutput.clear();
+}
+
+int64_t Parser::get_register_location() const
+{
+    return xpointer;
 }

@@ -4,14 +4,17 @@ debug_opt="$1"
 
 # Build
 build_dir_name="bin"
-if [ "$debug_opt" == "debug" ];
+if [ ! -d "$build_dir_name" ];
 then
-    ./build.sh debug
-else
-    ./build.sh
+    if [ "$debug_opt" == "debug" ];
+    then
+        ./build.sh debug
+    else
+        ./build.sh
+    fi
 fi
 
 # Run
-main_target="main"
+main_target="ccbf"
 mainexe=$(find ./$build_dir_name -name $main_target)
 ./$mainexe

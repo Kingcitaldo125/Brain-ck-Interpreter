@@ -7,14 +7,15 @@
 
 namespace BrainFck
 {
-class Reader
+class Interpreter
 {
 public:
-    Reader();
+    Interpreter();
 
-    int read(const std::string& filepath);
+    int interpret();
 
 private:
-    std::unique_ptr<Parser> parser;
+  std::unique_ptr<Parser> parser;
+  std::string int_prefix;
 };
 }

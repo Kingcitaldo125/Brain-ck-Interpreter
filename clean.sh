@@ -1,3 +1,4 @@
 #!/bin/bash
 
-rm -rf build/
+build_dir_name="bin"
+rm -rf $build_dir_name

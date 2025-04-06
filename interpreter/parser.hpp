@@ -26,12 +26,18 @@ class Parser final
 
     int parse(const std::string &mstr);
     std::string output();
+    void reset_output();
+    int64_t get_register_location() const;
+    void set_tokenize_verbose();
+    void unset_tokenize_verbose();
+    bool valid_token(const char chr);
 
   protected:
     tok_arr_t tokenize(const std::string &mstr);
     int handle_instruction(BrainFck::tok_arr_t &contents, BrainFck::TOKENS instruction);
 
   private:
+    bool tokenize_verbose;
     int64_t xpointer;
     tok_iter_t token_pointer;
     std::list<std::pair<int64_t, tok_iter_t>> brack_stack;

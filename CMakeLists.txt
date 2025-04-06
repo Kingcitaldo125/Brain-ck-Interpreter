@@ -9,6 +9,7 @@ option(DEBUG "Enable Debugging" false)
 
 if(DEBUG)
     message("Building with Debug")
+    add_compile_definitions(DEBUG)
 endif()
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/interpreter/)

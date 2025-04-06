@@ -1,8 +1,9 @@
 add_library(reader SHARED reader.cpp)
+add_library(parser SHARED parser.cpp)
 add_library(utility SHARED utility.cpp)
 
-add_library(bfck SHARED parser.cpp)
-target_link_libraries(bfck PUBLIC reader utility)
+add_library(bfck_interpreter SHARED interpreter.cpp)
+target_link_libraries(bfck_interpreter PUBLIC reader parser utility)
 
-add_executable(main main.cpp)
-target_link_libraries(main PRIVATE bfck)
+add_executable(ccbf main.cpp)
+target_link_libraries(ccbf PRIVATE bfck_interpreter)

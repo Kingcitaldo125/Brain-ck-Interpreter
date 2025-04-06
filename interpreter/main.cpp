@@ -1,37 +1,19 @@
-#include "parser.hpp"
 #include <iostream>
 
-#define HELLO_WORLD                                                                                \
-    "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.---" \
-    "-----.>>+.>++."
-#define HELLO_BANG "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<+++."
+#include "interpreter.hpp"
+#include "reader.hpp"
 
-using BrainFck::Parser;
+using BrainFck::Interpreter;
+using BrainFck::Reader;
 
-int main()
+int main(int argc, char** argv)
 {
-    Parser parser;
-    int res = 0;
-
-    res |= parser.parse(HELLO_WORLD);
-    // res |= parser.parse(HELLO_BANG);
-    // res |= parser.parse("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.");
-    /*
-    res |= parser.parse(
-    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.>"
-    "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.>"
-    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.>"
-    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.>"
-    "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-    );
-    */
-
-    if (res)
+    if (argc == 1)
     {
-        puts("Failed to parse.");
-        return -1;
+        Interpreter interpreter;
+        return interpreter.interpret();
     }
 
-    std::cout << "output: " << parser.output() << std::endl;
-    return 0;
+    Reader reader;
+    return reader.read(argv[1]);
 }
