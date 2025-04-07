@@ -27,7 +27,7 @@ class Parser final
     int parse(const std::string &mstr);
     std::string output();
     void reset_output();
-    int64_t get_register_location() const;
+    int64_t get_data_location() const;
     void set_tokenize_verbose();
     void unset_tokenize_verbose();
     bool valid_token(const char chr);

@@ -200,7 +200,7 @@ void Parser::reset_output()
     xoutput.clear();
 }
 
-int64_t Parser::get_register_location() const
+int64_t Parser::get_data_location() const
 {
     return xpointer;
 }

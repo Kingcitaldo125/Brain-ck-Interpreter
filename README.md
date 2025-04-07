@@ -22,6 +22,11 @@ Run the interactive interpreter by running the `run.sh` shell script (Linux):
 
 This will compile (if not already) the code in the project and start up an interactive Brainf*ck interpreter.
 
+Once the interactive interpreter is running, you should see `BF(X)` in the terminal window.
+The `X` is a numeric value indicating which data/cell the data pointer is currently pointing to.
+
+Type "CTRL+C" or "CTRL+D" to exit the interactive interpreter at any time.
+
 ### Non-Interactive interpreter
 You can also interpret files directly with:
 

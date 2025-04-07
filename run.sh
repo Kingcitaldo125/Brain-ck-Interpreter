@@ -39,6 +39,12 @@ fi
 main_target="ccbf"
 mainexe=$(find ./$build_dir_name -name $main_target)
 
+if [ -z "$mainexe" ];
+then
+    echo "Cannot find main interpreter executable -- exiting"
+    exit 1
+fi
+
 if [ ! -z "$xfile" ];
 then
     ./$mainexe $xfile

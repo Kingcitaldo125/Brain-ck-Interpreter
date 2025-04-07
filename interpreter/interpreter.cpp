@@ -20,8 +20,8 @@ int Interpreter::interpret()
     while (1)
     {
         std::string holder;
-        const std::string register_location = std::to_string(parser->get_register_location());
-        const std::string int_val = int_prefix + "(" + register_location + ") ";
+        const std::string data_location = std::to_string(parser->get_data_location());
+        const std::string int_val = int_prefix + "(" + data_location + ") ";
 
         std::cout << int_val;
         std::cin >> holder;
