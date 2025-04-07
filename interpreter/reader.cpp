@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "reader.hpp"
+#include "utility.hpp"
 
 using BrainFck::Parser;
 using BrainFck::Reader;
@@ -14,6 +15,15 @@ Reader::Reader()
 
 int Reader::read(const std::string &filepath)
 {
+    if (filepath.empty())
+        return 1; // the runner shell script should handle this case
+
+    if (BrainFck::split_string(filepath, '.').back() != "bf")
+    {
+        // emit warning about the file suffix
+        std::cout << "WARNING: File does not end in suffix '.bf': " << filepath << std::endl;
+    }
+
     std::ifstream iff(filepath);
     std::stringstream stream;
     std::string holder;

@@ -1,5 +1,7 @@
 #include "utility.hpp"
+#include <fstream>
 #include <iostream>
+#include <sstream>
 
 using BrainFck::tok_iter_t;
 
@@ -80,4 +82,18 @@ tok_iter_t BrainFck::find_next_close(tok_iter_t begin, tok_iter_t end)
     }
 
     return end;
+}
+
+std::vector<std::string> BrainFck::split_string(const std::string &mstr, const char delimiter)
+{
+    std::vector<std::string> items;
+    std::stringstream stream(mstr);
+    std::string holder("");
+
+    while (std::getline(stream, holder, delimiter))
+    {
+        items.push_back(std::move(holder));
+    }
+
+    return items;
 }
