@@ -1,6 +1,4 @@
-#include <algorithm>
 #include <iostream>
-#include <list>
 
 #include "parser.hpp"
 #include "utility.hpp"
@@ -25,11 +23,6 @@ void Parser::unset_tokenize_verbose()
     tokenize_verbose = false;
 }
 
-bool Parser::valid_token(const char chr)
-{
-    return lexemes.find(chr) != lexemes.end();
-}
-
 BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
 {
     BrainFck::tok_arr_t tokens;
@@ -37,7 +30,7 @@ BrainFck::tok_arr_t Parser::tokenize(const std::string &mstr)
     for (const auto &chr : mstr)
     {
         // If we found a token that's not in the language, discard
-        if (!valid_token(chr))
+        if (lexemes.find(chr) == lexemes.end())
             continue;
 
         // Otherwise, tokenize the char

@@ -30,7 +30,6 @@ class Parser final
     int64_t get_data_location() const;
     void set_tokenize_verbose();
     void unset_tokenize_verbose();
-    bool valid_token(const char chr);
 
   protected:
     tok_arr_t tokenize(const std::string &mstr);

@@ -33,7 +33,7 @@ int Reader::read(const std::string &filepath)
         stream << holder;
         holder = "";
 #ifdef DEBUG
-        std::cout << "stream: " << stream << std::endl;
+        std::cout << "stream: " << stream.str() << std::endl;
 #endif // DEBUG
     }
 

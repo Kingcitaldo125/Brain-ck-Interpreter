@@ -29,41 +29,6 @@ std::string BrainFck::stringify_token(BrainFck::TOKENS token)
     return "";
 }
 
-tok_iter_t BrainFck::find_matching_close(tok_iter_t begin, tok_iter_t end)
-{
-    auto it = begin;
-    auto itm = end;
-    int stack = 1;
-
-    while (1)
-    {
-        if (stack == 0)
-        {
-            itm = it;
-        }
-
-        if (it >= end)
-
-            switch (*it)
-            {
-            case BrainFck::TOKENS::OBRACK:
-            {
-                ++stack;
-            }
-            case BrainFck::TOKENS::CBRACK:
-            {
-                --stack;
-            }
-            default:
-                break;
-            }
-
-        ++it;
-    }
-
-    return itm;
-}
-
 tok_iter_t BrainFck::find_next_close(tok_iter_t begin, tok_iter_t end)
 {
     auto it = begin;

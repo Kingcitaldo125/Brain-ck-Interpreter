@@ -12,4 +12,7 @@ if(DEBUG)
     add_compile_definitions(DEBUG)
 endif()
 
+set(BFCK_EXE_FLAGS -O3 -Wall -Wextra)
+set(BFCK_LIB_FLAGS -fPIC ${BFCK_EXE_FLAGS})
+
 add_subdirectory(${CMAKE_SOURCE_DIR}/interpreter/)
