@@ -29,3 +29,6 @@ jobs:
 
       - name: Build sources
         run: cmake --build bin/ --parallel 4
+
+      - name: Run tests
+        run: ctest_file=$(find -name CTestTestfile.cmake) && cd `dirname $ctest_file` && ctest -V
