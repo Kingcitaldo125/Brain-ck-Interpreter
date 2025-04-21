@@ -19,11 +19,12 @@ elif [ "$opt" == "test" ];
 then
     if [ -z "$CMAKE_TOOLCHAIN_FILE" ];
     then
-        echo "Cannot recognize toolchain file -- exiting"
-        exit 1
+        echo "Cannot recognize toolchain file -- trying without it"
+        cmake -S . -B $build_dir_name/ -DBUILD_TEST=true
+    else
+        echo "Using toolchain file '$CMAKE_TOOLCHAIN_FILE'"
+        cmake -S . -B $build_dir_name/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
     fi
-    echo "Using toolchain file '$CMAKE_TOOLCHAIN_FILE'"
-    cmake -S . -B $build_dir_name/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
 else
     cmake -S . -B $build_dir_name/
 fi
