@@ -34,3 +34,12 @@
 # CMake build dirs
 bin/
 build/
+
+# VS Code config
+.vscode/
+
+# CTest stuff
+Testing/
+
+# Vcpkg stuff
+vcpkg_installed/
