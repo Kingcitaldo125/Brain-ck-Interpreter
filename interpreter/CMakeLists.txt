@@ -15,3 +15,8 @@ target_compile_options(bfck_interpreter PUBLIC ${BFCK_LIB_FLAGS})
 add_executable(ccbf main.cpp)
 target_link_libraries(ccbf PRIVATE bfck_interpreter)
 target_compile_options(ccbf PRIVATE ${BFCK_EXE_FLAGS})
+
+if (BUILD_TEST)
+    message("Building unit tests")
+    add_subdirectory(test)
+endif()

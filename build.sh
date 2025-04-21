@@ -1,18 +1,29 @@
 #!/bin/bash
 
-debug_opt="$1"
+opt="$1"
+
+CMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE"
 
 # Build
 build_dir_name="bin"
-if [ "$debug_opt" == "clean" ];
+if [ "$opt" == "clean" ];
 then
     echo "cleaning..."
     ./clean.sh
 fi
 
-if [ "$debug_opt" == "debug" ];
+if [ "$opt" == "debug" ];
 then
     cmake -S . -B $build_dir_name/ -DDEBUG=true
+elif [ "$opt" == "test" ];
+then
+    if [ -z "$CMAKE_TOOLCHAIN_FILE" ];
+    then
+        echo "Cannot recognize toolchain file -- exiting"
+        exit 1
+    fi
+    echo "Using toolchain file '$CMAKE_TOOLCHAIN_FILE'"
+    cmake -S . -B $build_dir_name/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
 else
     cmake -S . -B $build_dir_name/
 fi
