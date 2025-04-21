@@ -19,13 +19,13 @@ jobs:
         run: sudo apt -y update && sudo apt -y install git curl cmake build-essential
 
       - name: Install vcpkg
-        run: git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && ./bootstrap-vcpkg.sh && export PATH="$PATH:$(pwd)"
+        run: cd / && git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && ./bootstrap-vcpkg.sh && export PATH="$PATH:$(pwd)"
 
       - name: Run vcpkg install
         run: vcpkg install
 
       - name: Configure CMake
-        run: CMAKE_TOOLCHAIN_FILE="`find / -name vcpkg.cmake`" && cmake -S . -B bin/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
+        run: CMAKE_TOOLCHAIN_FILE="`find /vcpkg -name vcpkg.cmake`" && cmake -S . -B bin/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
 
       - name: Build sources
         run: cmake --build bin/ --parallel 4
