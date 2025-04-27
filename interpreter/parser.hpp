@@ -7,7 +7,7 @@
 #include <unordered_set>
 #include <utility>
 
-#include "token.hpp"
+#include "tokenizer.hpp"
 
 // 30'000 byte array
 #define ARRAY_LENGTH 0x7530
@@ -28,15 +28,12 @@ class Parser final
     std::string output();
     void reset_output();
     int64_t get_data_location() const;
-    void set_tokenize_verbose();
-    void unset_tokenize_verbose();
 
   protected:
-    tok_arr_t tokenize(const std::string &mstr);
     int handle_instruction(BrainFck::tok_arr_t &contents, BrainFck::TOKENS instruction);
 
   private:
-    bool tokenize_verbose;
+    Tokenizer tokenizer;
     int64_t xpointer;
     tok_iter_t token_pointer;
     std::list<std::pair<int64_t, tok_iter_t>> brack_stack;

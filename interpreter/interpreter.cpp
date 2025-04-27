@@ -9,7 +9,6 @@ using BrainFck::Parser;
 Interpreter::Interpreter()
 {
     parser = std::make_unique<Parser>();
-    parser->set_tokenize_verbose();
     int_prefix = "BF>";
 }
 

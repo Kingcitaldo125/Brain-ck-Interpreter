@@ -5,18 +5,12 @@
 #include "reader.hpp"
 #include "utility.hpp"
 
-using BrainFck::Parser;
 using BrainFck::Reader;
 
-Reader::Reader()
-{
-    parser = std::make_unique<Parser>();
-}
-
-int Reader::read(const std::string &filepath)
+std::string Reader::read(const std::string &filepath)
 {
     if (filepath.empty())
-        return 1; // the runner shell script should handle this case
+        return ""; // the runner shell script should handle this case
 
     if (BrainFck::split_string(filepath, '.').back() != "bf")
     {
@@ -26,7 +20,7 @@ int Reader::read(const std::string &filepath)
 
     std::ifstream iff(filepath);
     std::stringstream stream;
-    std::string holder;
+    std::string holder = "";
 
     while (iff >> holder)
     {
@@ -37,12 +31,5 @@ int Reader::read(const std::string &filepath)
 #endif // DEBUG
     }
 
-    const int parse_res = parser->parse(stream.str());
-    if (!parse_res)
-    {
-        std::cout << parser->output() << std::endl;
-    }
-    parser->reset_output();
-
-    return parse_res;
+    return stream.str();
 }
