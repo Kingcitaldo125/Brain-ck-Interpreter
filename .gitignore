@@ -30,6 +30,9 @@
 *.exe
 *.out
 *.app
+*out
+*out.c
+*out.s
 
 # CMake build dirs
 bin/

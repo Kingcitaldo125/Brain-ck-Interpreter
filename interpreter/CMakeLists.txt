@@ -15,6 +15,12 @@ target_compile_options(reader PUBLIC ${BFCK_LIB_FLAGS})
 # Compiler
 add_executable(ccbf_comp compiler.cpp)
 target_compile_options(ccbf_comp PUBLIC ${BFCK_LIB_FLAGS})
+
+if(SHOW_ASM)
+    message("Showing assembly output for compiled bf sources")
+    target_compile_definitions(ccbf_comp PUBLIC SHOW_ASM)
+endif()
+
 target_link_libraries(ccbf_comp PUBLIC tokenizer reader utility)
 
 # Interpreter

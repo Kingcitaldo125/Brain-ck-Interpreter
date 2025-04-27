@@ -25,6 +25,9 @@ then
         echo "Using toolchain file '$CMAKE_TOOLCHAIN_FILE'"
         cmake -S . -B $build_dir_name/ -DBUILD_TEST=true -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE
     fi
+elif [ "$opt" == "assembly" ];
+then
+    cmake -S . -B $build_dir_name/ -DSHOW_ASM=true
 else
     cmake -S . -B $build_dir_name/
 fi
