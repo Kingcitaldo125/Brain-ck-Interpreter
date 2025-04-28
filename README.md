@@ -20,6 +20,9 @@ One may run either the compiler or the interpreter via two shell scripts at the 
 
 More information on these two options are described in the sections below.
 
+Please note that running large Brainf*ck programs with the interpreter may be much slower
+than compiling and running the same programs.
+
 ### Compiler
 
 Brainf*ck code may be compiled down to assembly and/or an executable using the `gcc` C compiler.
@@ -39,6 +42,8 @@ Optionally, one may also specify assembly output to the compile command:
 ```bash
 ./compile.sh -a -f ./myfile.bf
 ```
+
+Selecting the option to generate the resulting assembly output will also trigger a full rebuild of the source code.
 
 ### Interactive interpreter
 Run the interactive interpreter by running the `run.sh` shell script (Linux):
