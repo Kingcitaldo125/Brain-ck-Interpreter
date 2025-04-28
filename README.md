@@ -1,6 +1,8 @@
 # Brain-ck-Interpreter
-A compiler and interperter for the Brainf*ck esoteric programming language.
+A compiler and interpreter for the Brainf*ck esoteric programming language.
 This is based on the language design section described in the [Wikipedia article](https://en.wikipedia.org/wiki/Brainfuck).
+
+![](./images/mandelbrot_out.PNG "Mandelbrot set output")
 
 ## Building
 Build the programs by running the `build.sh` shell script (Linux):
