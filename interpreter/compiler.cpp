@@ -1,4 +1,5 @@
 #include <cstdlib>
+
 #include <iostream>
 
 #include "compiler.hpp"
@@ -8,7 +9,8 @@
 // 30'000 byte array
 #define ARRAY_LENGTH 0x7530
 #define TAB_LIMIT 10
-#define COMPILER_FLAGS "-O2"
+// This appears to remove some necessary code -- remove optimization flags for now.
+//#define COMPILER_FLAGS "-O2"
 #define C_OUTFILE "out.c"
 
 using BrainFck::Reader;
@@ -25,19 +27,17 @@ void Compiler::reset()
     // reset vars tracking outputs and C compiler invocations
     writer = std::ofstream(C_OUTFILE, std::ios::out);
     token_arr_name = std::string("TOK_ARR");
-    token_arr_ptr_name = token_arr_name + "_ptr";
 
     // might need to make the choice of compiler variable
     // go with 'gcc' for now
     #ifdef SHOW_ASM
-        compiler_invocation = std::string("gcc -S " C_OUTFILE "; gcc -o out " COMPILER_FLAGS " " C_OUTFILE);
+        compiler_invocation = std::string("gcc -S " C_OUTFILE "; gcc -o out " C_OUTFILE);
     #else
-        compiler_invocation = std::string("gcc -o out " COMPILER_FLAGS " " C_OUTFILE);
+        //compiler_invocation = std::string("gcc -o out " COMPILER_FLAGS " " C_OUTFILE);
+        compiler_invocation = std::string("gcc -o out " C_OUTFILE);
     #endif
 
     // reset loop bookeeping vars
-    loop_contents.clear();
-    in_loop = false;
     tab_tracker = 0;
 
     initialize();
@@ -53,14 +53,11 @@ void Compiler::add_tokens(const std::vector<BrainFck::TOKENS>& tokens)
             case BrainFck::TOKENS::OBRACK:
             {
                 write_loop_start();
-                in_loop = true;
                 break;
             }
             case BrainFck::TOKENS::CBRACK:
             {
                 write_loop_end();
-                loop_contents.clear();
-                in_loop = false;
                 break;
             }
             case BrainFck::TOKENS::INC:
@@ -140,14 +137,11 @@ std::string Compiler::write_tab()
 
 void Compiler::write_main_start()
 {
-    const int byte_arr_len = ARRAY_LENGTH;
-
     writer << "int main()\n{\n";
     ++tab_tracker;
 
     // write out the C version of the array of bytes
-    writer << write_tab() << "int " << token_arr_name << "[" << (std::to_string(byte_arr_len)) << "];\n";
-    writer << write_tab() << "int* " << token_arr_ptr_name << " = " << token_arr_name << ";\n";
+    writer << write_tab() << "int " << token_arr_name << "[" << (std::to_string(ARRAY_LENGTH)) << "];\n";
     writer << write_tab() << "int xregister = 0;\n";
     write_newline();
 }
@@ -183,35 +177,33 @@ void Compiler::write_loop_end()
 
 void Compiler::write_inc()
 {
-    writer << write_tab() << "(*" << token_arr_ptr_name << ")++;\n";
-    writer << write_tab() << "if(*" << token_arr_ptr_name << " > 255)*" << token_arr_ptr_name << " = 0;\n";
+    writer << write_tab() << token_arr_name << "[xregister]++;\n";
+    writer << write_tab() << "if(" << token_arr_name << "[xregister] > 255) " << token_arr_name << "[xregister] = 0;\n";
     write_newline();
 }
 
 void Compiler::write_dec()
 {
-    writer << write_tab() << "(*" << token_arr_ptr_name << ")--;\n";
-    writer << write_tab() << "if(*" << token_arr_ptr_name << " < 0)*" << token_arr_ptr_name << " = 255;\n";
+    writer << write_tab() << token_arr_name << "[xregister]--;\n";
+    writer << write_tab() << "if(" << token_arr_name << "[xregister] < 0) " << token_arr_name << "[xregister] = 255;\n";
     write_newline();
 }
 
 void Compiler::write_shl()
 {
-    writer << write_tab() << token_arr_ptr_name << "--;\n";
-    writer << write_tab() << "xregister--;\n";
+    writer << write_tab() << "if(xregister - 1 >= 0) xregister--;\n";
     write_newline();
 }
 
 void Compiler::write_shr()
 {
-    writer << write_tab() << token_arr_ptr_name << "++;\n";
-    writer << write_tab() << "xregister++;\n";
+    writer << write_tab() << "if(xregister + 1 < " << std::to_string(ARRAY_LENGTH) << ") xregister++;\n";
     write_newline();
 }
 
 void Compiler::write_outp()
 {
-    writer << write_tab() << "printf(\"%c\",*" << token_arr_ptr_name << ");\n";
+    writer << write_tab() << "printf(\"%c\"," << token_arr_name << "[xregister]);\n";
     write_newline();
 }
 

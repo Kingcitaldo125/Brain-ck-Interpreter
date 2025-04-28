@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     const int parse_res = parser.parse(reader.read(argv[1]));
     if (!parse_res)
     {
-        std::cout << parser.output() << std::endl;
+        std::cout << parser.output();// << std::endl;
     }
     parser.reset_output();
 

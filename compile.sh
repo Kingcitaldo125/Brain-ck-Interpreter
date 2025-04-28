@@ -2,9 +2,9 @@
 
 showhelp(){
    echo ""
-   echo "Usage: $0 -c file [-a optionally show assembly output]"
+   echo "Usage: $0 -f file [-a optionally show assembly output]"
    echo -e "\t-a show assembly of compiled code"
-   echo -e "\t-c relative path to file to compile"
+   echo -e "\t-f relative path to file to compile"
    echo -e "\t--help show help"
    exit 1 # Exit script after printing help
 }
@@ -17,11 +17,11 @@ fi
 
 show_assembly="false"
 
-while getopts ":ac:" opt
+while getopts ":af:" opt
 do
    case "$opt" in
       a ) show_assembly="true" ;;
-      c ) xfile="$OPTARG" ;;
+      f ) xfile="$OPTARG" ;;
       ? ) showhelp ;; # Print helpFunction in case parameter is non-existent
    esac
 done

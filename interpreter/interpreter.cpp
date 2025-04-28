@@ -51,7 +51,7 @@ int Interpreter::interpret()
             break;
         if (holder == ".")
         {
-            std::cout << parser->output() << std::endl;
+            std::cout << parser->output();// << std::endl;
         }
 
         parser->reset_output();

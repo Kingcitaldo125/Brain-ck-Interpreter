@@ -34,10 +34,7 @@ protected:
 
 private:
     std::ofstream writer;
-    std::list<BrainFck::TOKENS> loop_contents;
-    bool in_loop;
     std::string token_arr_name;
-    std::string token_arr_ptr_name;
     std::string compiler_invocation;
     int tab_tracker;
 };
