@@ -16,8 +16,9 @@ then
 fi
 
 show_assembly="false"
+xfile=""
 
-while getopts ":af:" opt
+while getopts ":f:a" opt
 do
    case "$opt" in
       a ) show_assembly="true" ;;
@@ -26,12 +27,19 @@ do
    esac
 done
 
+if [ -z "$xfile" ];
+then
+    echo "ERROR: Must specify a source file."
+    showhelp
+    exit 1
+fi
+
 # Check compiler
 compiler="gcc"
 
 if [ `which $compiler` == "" ];
 then
-    echo "Cannot find C compiler '$compiler' -- exiting"
+    echo "ERROR: Cannot find C compiler '$compiler' -- exiting"
     exit 1
 fi
 
@@ -60,7 +68,7 @@ mainexe=$(find ./$build_dir_name -name $main_target)
 
 if [ -z "$mainexe" ];
 then
-    echo "Cannot find main bf compiler executable -- exiting"
+    echo "ERROR: Cannot find main bf compiler executable -- exiting"
     exit 1
 fi
 

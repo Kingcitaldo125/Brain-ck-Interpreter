@@ -1,8 +1,9 @@
 # Brain-ck-Interpreter
-Based on the interpreter described in the [Wikipedia article](https://en.wikipedia.org/wiki/Brainfuck).
+A compiler and interperter for the Brainf*ck esoteric programming language.
+This is based on the language design section described in the [Wikipedia article](https://en.wikipedia.org/wiki/Brainfuck).
 
 ## Building
-Build the interpreter by running the `build.sh` shell script (Linux):
+Build the programs by running the `build.sh` shell script (Linux):
 
 ```bash
 ./build.sh
@@ -10,8 +11,34 @@ Build the interpreter by running the `build.sh` shell script (Linux):
 
 ## Running
 
-Running the interpreter can be done in either an interactive mode, or in a mode that
-reads BF source code directly from a file.
+One may run either the compiler or the interpreter via two shell scripts at the root of the source code:
+
+- compile.sh
+- run.sh
+
+`compile.sh` will invoke the compiler and `run.sh` will run the interpreter.
+
+More information on these two options are described in the sections below.
+
+### Compiler
+
+Brainf*ck code may be compiled down to assembly and/or an executable using the `gcc` C compiler.
+Usage of the compiler assumes that the `gcc` command is already available on the system path.
+
+To compile a program, run:
+
+```bash
+./compile -f ./myfile.bf
+```
+
+If the program can be compiled, resulting `out.c` and `out` files will be written to the directory of the invocation.
+These two files are the C source code, and the binary executable resulting from the compiler invocation, respectively.
+
+Optionally, one may also specify assembly output to the compile command:
+
+```bash
+./compile.sh -a -f ./myfile.bf
+```
 
 ### Interactive interpreter
 Run the interactive interpreter by running the `run.sh` shell script (Linux):
