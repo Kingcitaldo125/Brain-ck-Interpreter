@@ -67,3 +67,6 @@ You can also interpret files directly with:
 ```bash
 ./run.sh -f ./myfile.bf
 ```
+
+## License
+See the [LICENSE](https://github.com/Kingcitaldo125/Brain-ck-Interpreter/blob/main/LICENSE) file for details.
