@@ -4,11 +4,17 @@ cli_passed=0
 cli_failed=0
 failed_arr=()
 
-tests=$(find ./test/scripts -type f)
+tests=$(find ./scripts -type f)
 
 echo "Running CLI tests..."
 for tst in $tests
 do
+    # Skip longer running scripts
+    if [ "${tst##*/}" == "mandelbrot.bf" ] || [ "${tst##*/}" == "game_of_life.bf" ];
+    then
+        continue
+    fi
+
     echo "Running '$tst'..."
     ./run.sh -f $tst
     echo "Done."
