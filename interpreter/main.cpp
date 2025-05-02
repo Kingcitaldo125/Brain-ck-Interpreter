@@ -19,10 +19,26 @@ int main(int argc, char **argv)
     Reader reader;
     Parser parser;
 
-    const int parse_res = parser.parse(reader.read(argv[1]));
+    const int cli_param = std::stoi(std::string(argv[2]));
+
+    int parse_res = 0;
+    if (cli_param == 1)
+    {
+        parse_res = parser.parse(reader.read(argv[1]));
+    }
+    else if (cli_param == 2)
+    {
+        parse_res = parser.parse(argv[1]);
+    }
+    else
+    {
+        std::cout << "Cannot interpret CLI command option" << std::endl;
+        return -1;
+    }
+
     if (!parse_res)
     {
-        std::cout << parser.output();// << std::endl;
+        std::cout << parser.output();
     }
     parser.reset_output();
 

@@ -68,5 +68,13 @@ You can also interpret files directly with:
 ./run.sh -f ./myfile.bf
 ```
 
+One may also leverage the interpreter directly from the command line:
+
+```bash
+./run.sh -i "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++.>+.+++++++..+++.<<+++."
+```
+
+This will output `Hello!` in the terminal that the `run.sh` was invoked from.
+
 ## License
 See the [LICENSE](https://github.com/Kingcitaldo125/Brain-ck-Interpreter/blob/main/LICENSE) file for details.
