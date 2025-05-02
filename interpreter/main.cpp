@@ -1,8 +1,8 @@
 #include <iostream>
 
 #include "interpreter.hpp"
-#include "reader.hpp"
 #include "parser.hpp"
+#include "reader.hpp"
 
 using BrainFck::Interpreter;
 using BrainFck::Parser;

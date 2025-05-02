@@ -10,14 +10,14 @@ namespace BrainFck
 {
 class Compiler final
 {
-public:
+  public:
     Compiler();
 
-    void add_tokens(const std::vector<BrainFck::TOKENS>& tokens);
+    void add_tokens(const std::vector<BrainFck::TOKENS> &tokens);
     void reset();
     int compile();
 
-protected:
+  protected:
     void initialize();
 
     void write_main_start();
@@ -32,10 +32,10 @@ protected:
     void write_newline();
     std::string write_tab();
 
-private:
+  private:
     std::ofstream writer;
     std::string token_arr_name;
     std::string compiler_invocation;
     int tab_tracker;
 };
-}
+} // namespace BrainFck

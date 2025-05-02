@@ -10,11 +10,11 @@
 #define ARRAY_LENGTH 0x7530
 #define TAB_LIMIT 10
 // This appears to remove some necessary code -- remove optimization flags for now.
-//#define COMPILER_FLAGS "-O2"
+// #define COMPILER_FLAGS "-O2"
 #define C_OUTFILE "out.c"
 
-using BrainFck::Reader;
 using BrainFck::Compiler;
+using BrainFck::Reader;
 using BrainFck::Tokenizer;
 
 Compiler::Compiler()
@@ -28,14 +28,14 @@ void Compiler::reset()
     writer = std::ofstream(C_OUTFILE, std::ios::out);
     token_arr_name = std::string("TOK_ARR");
 
-    // might need to make the choice of compiler variable
-    // go with 'gcc' for now
-    #ifdef SHOW_ASM
-        compiler_invocation = std::string("gcc -S " C_OUTFILE "; gcc -o out " C_OUTFILE);
-    #else
-        //compiler_invocation = std::string("gcc -o out " COMPILER_FLAGS " " C_OUTFILE);
-        compiler_invocation = std::string("gcc -o out " C_OUTFILE);
-    #endif
+// might need to make the choice of compiler variable
+// go with 'gcc' for now
+#ifdef SHOW_ASM
+    compiler_invocation = std::string("gcc -S " C_OUTFILE "; gcc -o out " C_OUTFILE);
+#else
+    // compiler_invocation = std::string("gcc -o out " COMPILER_FLAGS " " C_OUTFILE);
+    compiler_invocation = std::string("gcc -o out " C_OUTFILE);
+#endif
 
     // reset loop bookeeping vars
     tab_tracker = 0;
@@ -44,54 +44,54 @@ void Compiler::reset()
     write_main_start();
 }
 
-void Compiler::add_tokens(const std::vector<BrainFck::TOKENS>& tokens)
+void Compiler::add_tokens(const std::vector<BrainFck::TOKENS> &tokens)
 {
-    for(const auto& tok : tokens)
+    for (const auto &tok : tokens)
     {
         switch (tok)
         {
-            case BrainFck::TOKENS::OBRACK:
-            {
-                write_loop_start();
-                break;
-            }
-            case BrainFck::TOKENS::CBRACK:
-            {
-                write_loop_end();
-                break;
-            }
-            case BrainFck::TOKENS::INC:
-            {
-                write_inc();
-                break;
-            }
-            case BrainFck::TOKENS::DEC:
-            {
-                write_dec();
-                break;
-            }
-            case BrainFck::TOKENS::SHL:
-            {
-                write_shl();
-                break;
-            }
-            case BrainFck::TOKENS::SHR:
-            {
-                write_shr();
-                break;
-            }
-            case BrainFck::TOKENS::INP:
-            {
-                // skip for now
-                break;
-            }
-            case BrainFck::TOKENS::OUTP:
-            {
-                write_outp();
-                break;
-            }
-            default:
-                break;
+        case BrainFck::TOKENS::OBRACK:
+        {
+            write_loop_start();
+            break;
+        }
+        case BrainFck::TOKENS::CBRACK:
+        {
+            write_loop_end();
+            break;
+        }
+        case BrainFck::TOKENS::INC:
+        {
+            write_inc();
+            break;
+        }
+        case BrainFck::TOKENS::DEC:
+        {
+            write_dec();
+            break;
+        }
+        case BrainFck::TOKENS::SHL:
+        {
+            write_shl();
+            break;
+        }
+        case BrainFck::TOKENS::SHR:
+        {
+            write_shr();
+            break;
+        }
+        case BrainFck::TOKENS::INP:
+        {
+            // skip for now
+            break;
+        }
+        case BrainFck::TOKENS::OUTP:
+        {
+            write_outp();
+            break;
+        }
+        default:
+            break;
         }
     }
 }
@@ -107,9 +107,8 @@ int Compiler::compile()
 #ifdef SHOW_ASM
         const auto coutfile_str = std::string(C_OUTFILE);
         auto dot = coutfile_str.find('.');
-        std::cout << "Wrote to '" << (coutfile_str.substr(0,dot) + ".s") << "'\n";
+        std::cout << "Wrote to '" << (coutfile_str.substr(0, dot) + ".s") << "'\n";
 #endif
-
     }
     return retc;
 }
@@ -128,10 +127,12 @@ void Compiler::write_newline()
 
 std::string Compiler::write_tab()
 {
-    if (tab_tracker < 0 || tab_tracker >= TAB_LIMIT ) return "";
+    if (tab_tracker < 0 || tab_tracker >= TAB_LIMIT)
+        return "";
 
     std::string tabout = "";
-    for(int i = 0; i < tab_tracker; ++i) tabout += '\t';
+    for (int i = 0; i < tab_tracker; ++i)
+        tabout += '\t';
     return tabout;
 }
 
@@ -141,7 +142,8 @@ void Compiler::write_main_start()
     ++tab_tracker;
 
     // write out the C version of the array of bytes
-    writer << write_tab() << "int " << token_arr_name << "[" << (std::to_string(ARRAY_LENGTH)) << "];\n";
+    writer << write_tab() << "int " << token_arr_name << "[" << (std::to_string(ARRAY_LENGTH))
+           << "];\n";
     writer << write_tab() << "int xregister = 0;\n";
     write_newline();
 }
@@ -178,14 +180,16 @@ void Compiler::write_loop_end()
 void Compiler::write_inc()
 {
     writer << write_tab() << token_arr_name << "[xregister]++;\n";
-    writer << write_tab() << "if(" << token_arr_name << "[xregister] > 255) " << token_arr_name << "[xregister] = 0;\n";
+    writer << write_tab() << "if(" << token_arr_name << "[xregister] > 255) " << token_arr_name
+           << "[xregister] = 0;\n";
     write_newline();
 }
 
 void Compiler::write_dec()
 {
     writer << write_tab() << token_arr_name << "[xregister]--;\n";
-    writer << write_tab() << "if(" << token_arr_name << "[xregister] < 0) " << token_arr_name << "[xregister] = 255;\n";
+    writer << write_tab() << "if(" << token_arr_name << "[xregister] < 0) " << token_arr_name
+           << "[xregister] = 255;\n";
     write_newline();
 }
 
@@ -197,7 +201,8 @@ void Compiler::write_shl()
 
 void Compiler::write_shr()
 {
-    writer << write_tab() << "if(xregister + 1 < " << std::to_string(ARRAY_LENGTH) << ") xregister++;\n";
+    writer << write_tab() << "if(xregister + 1 < " << std::to_string(ARRAY_LENGTH)
+           << ") xregister++;\n";
     write_newline();
 }
 
