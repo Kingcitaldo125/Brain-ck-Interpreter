@@ -11,8 +11,35 @@ Build the programs by running the `build.sh` shell script (Linux):
 ./build.sh
 ```
 
-## Running
+This will take care of building the compiler, interpreter, and all of the necessary link libraries
+needed by the compiler and interpreter.
 
+One may also build the tests and/or build in debug mode by adding `"debug"` or `"test"` to the `./build.sh`
+invocation as an optional argument.
+
+### Dependencies
+To compile the base programs, you will need a C++17 compatible compiler and [CMake](https://cmake.org/).
+
+To use the BF compiler, you will need to have `gcc` (GNU C Compiler) installed.
+Each of these dependencies can be installed in **Debian/Ubuntu** linux by way of the `apt` package manager:
+```bash
+sudo apt -y update && sudo apt -y install build-essential cmake
+```
+
+### Tests
+Normally, the Brainfck test scripts may be ran using the `test.sh` shell script.
+This will just interpret the brainfck source present in the repository, exercising the interpreter.
+
+If you wish to build and run the tests as well, [Vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/get-started?pivots=shell-bash)
+will be needed to retrieve the Catch2 unit test suite, which is in turn needed to run the unit tests.
+
+Running the unit tests, in conjunction with the test scripts, requires the project to be built by passing
+`"test"` to the `build.sh` shell script _prior_ to the `test.sh` invocation.
+This is due to the fact that unit tests were not set up to be ran automatically, in favor of simply running
+the Brainf*ck test scripts.
+Unit tests are ran automatically on commits to `main`, thanks to the project's GH actions.
+
+## Running
 One may run either the compiler or the interpreter via two shell scripts at the root of the source code:
 
 - compile.sh
@@ -26,7 +53,6 @@ Please note that running large Brainf*ck programs with the interpreter may be mu
 than compiling and running the same programs.
 
 ### Compiler
-
 Brainf*ck code may be compiled down to assembly and/or an executable using the `gcc` C compiler.
 Usage of the compiler assumes that the `gcc` command is already available on the system path.
 
