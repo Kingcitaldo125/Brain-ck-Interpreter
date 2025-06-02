@@ -63,9 +63,9 @@ To compile a program, run:
 ```
 
 If the program can be compiled, resulting `out.c` and `out` files will be written to the directory of the invocation.
-These two files are the C source code, and the binary executable resulting from the compiler invocation, respectively.
+These two files are the C source code and the binary executable resulting from the compiler invocation respectively.
 
-Optionally, one may also specify assembly output to the compile command:
+Optionally, one may also specify that the compile command should also output assembly:
 
 ```bash
 ./compile.sh -a -f ./myfile.bf
