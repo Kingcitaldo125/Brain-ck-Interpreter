@@ -1,5 +1,5 @@
 # Brain-ck-Interpreter
-A compiler and interpreter for the Brainf*ck esoteric programming language.
+A compiler(transpiler from BF -> C) and interpreter for the Brainf*ck esoteric programming language.
 This is based on the language design section described in the [Wikipedia article](https://en.wikipedia.org/wiki/Brainfuck).
 
 ![](https://raw.githubusercontent.com/Kingcitaldo125/Brain-ck-Interpreter/refs/heads/main/images/mandelbrot_out.PNG "Mandelbrot set output")
